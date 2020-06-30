@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image classifier</title>
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <!-- Load the stable version of handlebars.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+
+    <!-- Load the stable version of TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/knn-classifier"></script>
+</head>
+
+<body>
+    <h1>Live Image classifier</h1>
+    <p>Let’s see how to create a web-app to classify different objects </p>
+
+    <div id="instruction-pane">
+        <p>Instructions: </p>
+        <ol>
+            <li>Start by selecting the amount of objects you would like to classify. </li>
+            <li>Take picture of the objects you want to classify by clicking the respective button. </li>
+            <li>Repeat step 2 until the prediction results improves.</li>
+        </ol>
+    </div>
+    <section>
+        <h2>1. Select amount of objects:</h2>
+        <select name="" id="amount-classes">
+            <option value="2">2</option>
+            <option value="3" >3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+        </select>
+    </section>
+
+    <section>
+        <h2>2. Train classifier:</h2>
+
+        <div id="classes">
+        </div>
+
+        <video autoplay playsinline muted id="webcam" width="224" height="224"></video>
+
+    </section>
+
+    <section>
+        <h2>3. Check prediction:</h2>
+        <div id="result"></div>
+
+        <div id="console"></div>
+
+    </section>
+</body>
+
+<!-- Templates -->
+<script id="button-template" type="text/template">
+    <button name="Class {{i}}" class="cnn-class">Class {{i}}</button>
+</script>
+
+<script id="result-template" type="text/template">    
+    <p>Predicted class: {{prediction}}</p>
+    <p>Probability: {{probability}}%</p>
+</script>
+
+<script src="./js/mobilenet_webapp.js"></script>
+
+</html>
