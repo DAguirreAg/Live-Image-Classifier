@@ -1,19 +1,26 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // Load templates
+    const template_names = Handlebars.compile(document.querySelector('#names-template').innerHTML);
     const template_buttons = Handlebars.compile(document.querySelector('#button-template').innerHTML);
     const template_result = Handlebars.compile(document.querySelector('#result-template').innerHTML);
 
+    // Create name input fields
+    function createClassNames(amount_classes) {
+        document.querySelector("#class-names").innerHTML = template_names({ "i": 1 });
+        var i;
+        for (i = 0; i < (amount_classes - 1); i++) {
+            document.querySelector("#class-names").innerHTML += template_names({ "i": i + 2 });
+        }
+    }
+
     // Create buttons
     function createClassButton(amount_classes) {
-
         document.querySelector("#classes").innerHTML = template_buttons({ "i": 1 });
-
         var i;
         for (i = 0; i < (amount_classes - 1); i++) {
             document.querySelector("#classes").innerHTML += template_buttons({ "i": i + 2 });
         }
-
     }
 
     // Create class buttons when amount changes
@@ -21,11 +28,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let amount_classes = document.querySelector("#amount-classes").value;
 
+        // Create class name input fields
+        createClassNames(amount_classes);
+
         // Create buttons
         createClassButton(amount_classes);
 
         // Reinstantiate the CNN model
+        //labelname();
         cnn_app();
+    };
+
+    function labelname() {
+
+        const names = document.querySelectorAll(".class-name");
+
+        for (let index = 0; index < names.length; index++) {
+            const element = names[index].value;
+            console.log(element);
+
+        }
+
     };
 
     const webcamElement = document.getElementById('webcam');
@@ -56,13 +79,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const class_buttons = document.querySelectorAll(".cnn-class");
 
-        await setupWebcam();
-
         // Load the model.
         console.log('Loading mobilenet..');
         net = await mobilenet.load();
         console.log('Sucessfully loaded model');
 
+        // Load webcam
+        await setupWebcam();
 
         // Reads an image from the webcam and associates it with a specific class
         // index.
@@ -84,15 +107,18 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         };
 
-        while (true) {
+        while (false) {
             if (classifier.getNumClasses() > 0) {
+
+                const names = document.querySelectorAll(".class-name");
+
                 // Get the activation from mobilenet from the webcam.
                 const activation = net.infer(webcamElement, 'conv_preds');
                 // Get the most likely class and confidences from the classifier module.
                 const result = await classifier.predictClass(activation);
 
                 // Get results (Predicted class and Probability)
-                const prediction = result.classIndex;
+                const prediction = names[result.classIndex].value;
                 const probability = result.confidences[result.classIndex] * 100;
 
                 document.querySelector("#result").innerHTML = template_result({ "prediction": prediction, "probability": probability });
@@ -103,13 +129,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    
+
     // Launch the webapp
-    /// Create class buttons
     let amount_classes = document.querySelector("#amount-classes").value;
+    /// Create class name input fields
+    createClassNames(amount_classes);
+    /// Create class buttons
     createClassButton(amount_classes);
+
+    /// Create result section
+    document.querySelector("#result").innerHTML = template_result({ "prediction": "-", "probability": "-" });
+
     /// Launch camera
     setupWebcam();
+
     /// Launch CNN
     cnn_app();
 

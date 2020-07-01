@@ -18,52 +18,63 @@
 </head>
 
 <body>
-    <h1>Live Image classifier</h1>
-    <p>Let’s see how to create a web-app to classify different objects </p>
+    <section>
+        <h1>Live Image classifier</h1>
+        <p>Let’s see how to create a web-app to classify different objects </p>
+    </section>
 
-    <div id="instruction-pane">
-        <p>Instructions: </p>
-        <ol>
-            <li>Start by selecting the amount of objects you would like to classify. </li>
-            <li>Take picture of the objects you want to classify by clicking the respective button. </li>
-            <li>Repeat step 2 until the prediction results improves.</li>
-        </ol>
+    <div id="test">
+        <section id="instruction-panel">
+            <p>Instructions: </p>
+            <ol>
+                <li>Start by selecting the amount of objects you would like to classify. </li>
+                <li>Take picture of the objects you want to classify by clicking the respective button. </li>
+                <li>Repeat step 2 until the prediction results improves.</li>
+            </ol>
+        </section>
     </div>
-    <section>
-        <h2>1. Select amount of objects:</h2>
-        <select name="" id="amount-classes">
-            <option value="2">2</option>
-            <option value="3" >3</option>
-            <option value="4" selected>4</option>
-            <option value="5">5</option>
-        </select>
-    </section>
+    <div class="flex-container">
+        <section>
+            <h2>1. Select amount of objects:</h2>
+            <label for="class-amount">Amount of classes:</label>
+            <select name="" id="amount-classes">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4" selected>4</option>
+                <option value="5">5</option>
+            </select>
+            <br>
+            <br>
+            <div id="class-names"></div>
 
-    <section>
-        <h2>2. Train classifier:</h2>
+        </section>
 
-        <div id="classes">
-        </div>
+        <section>
+            <h2>2. Train classifier:</h2>
+            <div id="classes"></div>
+            <video autoplay playsinline muted id="webcam" width="224" height="224"></video>
+        </section>
 
-        <video autoplay playsinline muted id="webcam" width="224" height="224"></video>
+        <section>
+            <h2>3. Check prediction:</h2>
+            <div id="result"></div>
+        </section>
+    </div>
 
-    </section>
-
-    <section>
-        <h2>3. Check prediction:</h2>
-        <div id="result"></div>
-
-        <div id="console"></div>
-
-    </section>
 </body>
 
 <!-- Templates -->
-<script id="button-template" type="text/template">
-    <button name="Class {{i}}" class="cnn-class">Class {{i}}</button>
+<script id="names-template" type="text/template">
+    <label for="class-name">Class name:</label>
+    <input type="text" id="class-name-{{i}}" class="class-name" name="class-name" value="Class {{i}}">
+    <br><br>
 </script>
 
-<script id="result-template" type="text/template">    
+<script id="button-template" type="text/template">
+    <button name="Class-{{i}}" class="cnn-class">Train Class {{i}}</button>
+</script>
+
+<script id="result-template" type="text/template">
     <p>Predicted class: {{prediction}}</p>
     <p>Probability: {{probability}}%</p>
 </script>
