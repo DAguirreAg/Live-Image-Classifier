@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         };
 
-        while (false) {
+        while (true) {
             if (classifier.getNumClasses() > 0) {
 
                 const names = document.querySelectorAll(".class-name");

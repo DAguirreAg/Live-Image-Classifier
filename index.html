@@ -18,12 +18,13 @@
 </head>
 
 <body>
-    <section>
+    <header>
         <h1>Live Image classifier</h1>
-        <p>Let’s see how to create a web-app to classify different objects </p>
-    </section>
+        <p> The following web-app shows how easy it is to train a model to correctly classify frames from a webcam
+        </p>
+    </header>
 
-    <div id="test">
+    <div>
         <section id="instruction-panel">
             <p>Instructions: </p>
             <ol>
@@ -33,7 +34,7 @@
             </ol>
         </section>
     </div>
-    <div class="flex-container">
+    <div class="container">
         <section>
             <h2>1. Select amount of objects:</h2>
             <label for="class-amount">Amount of classes:</label>
@@ -52,7 +53,9 @@
         <section>
             <h2>2. Train classifier:</h2>
             <div id="classes"></div>
-            <video autoplay playsinline muted id="webcam" width="224" height="224"></video>
+            <div class="center">
+                <video autoplay playsinline muted id="webcam" width="224" height="224"></video>
+            </div>
         </section>
 
         <section>
@@ -60,6 +63,10 @@
             <div id="result"></div>
         </section>
     </div>
+
+    <footer>
+
+    </footer>
 
 </body>
 
